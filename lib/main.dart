@@ -67,11 +67,11 @@ class _SplashState extends State<Splash> {
           title: "Splash",
           home: homeWidget,
           routes: <String, WidgetBuilder> {
-            '/home': (_) => new HomePage(),
+            '/homepage': (_) => new HomePage(),
             '/tutorial': (_) => new Tutorial(),
             '/register_user': (_) => new RegisterUser(),
+            '/home': (_) => new Home(),
           },
-
         );
         return app;
       },
