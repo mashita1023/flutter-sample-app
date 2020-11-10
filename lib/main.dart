@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:peer_route_app/tutorial.dart';
 import 'package:peer_route_app/homepage.dart';
+import 'package:peer_route_app/register_user.dart';
 
 void main() {
   runApp(Splash());
@@ -68,6 +69,7 @@ class _SplashState extends State<Splash> {
           routes: <String, WidgetBuilder> {
             '/home': (_) => new HomePage(),
             '/tutorial': (_) => new Tutorial(),
+            '/register_user': (_) => new RegisterUser(),
           },
 
         );
@@ -77,7 +79,4 @@ class _SplashState extends State<Splash> {
   }
 
 }
-
-
-
 

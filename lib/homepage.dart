@@ -18,12 +18,16 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'You have pushed the button this many times:',
+              'Home',
+            ),
+            RaisedButton(
+              onPressed: () => Navigator.of(context).pushNamed('/register_user'),
+              child: Text('ユーザー登録'),
             ),
             RaisedButton(
               onPressed: () => Navigator.of(context).pushNamed('/tutorial'),
               child: Text('Tutorialへ'),
-            )
+            ),
           ],
         ),
       ),
