@@ -61,7 +61,6 @@ class _SplashState extends State<Splash> {
           homeWidget = new Tutorial();
           //Navigator.of(context).pushReplacementNamed('/tutorial');
         }
-        print('finish navigate');
 
         var app = new MaterialApp (
           title: "Splash",

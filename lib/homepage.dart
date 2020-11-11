@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:peer_route_app/footer.dart';
 import 'package:peer_route_app/notification.dart';
 import 'package:peer_route_app/register_user.dart';
+import 'package:peer_route_app/list.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -23,16 +24,13 @@ class _HomePageState extends State<HomePage> {
           ),
           BottomNavigationBarItem(
               icon: Icon(Icons.notifications),
-              title: Text('Notice')
+              title: Text('NOTICE')
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              title: Text('HOME')
+              icon: Icon(Icons.list),
+              title: Text('LIST')
           ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              title: Text('HOME')
-          ),
+
         ],
       ),
       tabBuilder: (context, index){
@@ -55,6 +53,16 @@ class _HomePageState extends State<HomePage> {
                 child: NotificationPage(),
               );
             });
+          case 2:
+            return CupertinoTabView(builder: (context){
+              return CupertinoPageScaffold(
+                navigationBar: CupertinoNavigationBar(
+                  leading: Icon(Icons.list),
+                ),
+                child: ListPage(),
+              );
+            });
+
         }
       }
     );
