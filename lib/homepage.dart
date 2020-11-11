@@ -7,6 +7,7 @@ import 'package:peer_route_app/notification.dart';
 import 'package:peer_route_app/register_user.dart';
 import 'package:peer_route_app/list.dart';
 import 'package:peer_route_app/coupon.dart';
+import 'package:peer_route_app/teams_of_service.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -44,36 +45,24 @@ class _HomePageState extends State<HomePage> {
           case 0:
             return CupertinoTabView(builder: (context){
               return CupertinoPageScaffold(
-                  navigationBar: CupertinoNavigationBar(
-                    leading: Icon(Icons.home),
-                  ),
                   child: Home(),
               );
             });
           case 1:
             return CupertinoTabView(builder: (context){
               return CupertinoPageScaffold(
-                navigationBar: CupertinoNavigationBar(
-                  leading: Icon(Icons.notifications),
-                ),
                 child: NotificationPage(),
               );
             });
           case 2:
             return CupertinoTabView(builder: (context){
               return CupertinoPageScaffold(
-                navigationBar: CupertinoNavigationBar(
-                  leading: Icon(Icons.list),
-                ),
                 child: ListPage(),
               );
             });
           case 3:
             return CupertinoTabView(builder: (context){
               return CupertinoPageScaffold(
-                navigationBar: CupertinoNavigationBar(
-                  leading: Icon(Icons.list),
-                ),
                 child: CouponListPage(),
               );
             });
@@ -122,27 +111,45 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home'),
+        title: Center(
+          child: Text('Home'),
+        )
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Home',
-            ),
-            RaisedButton(
-//              onPressed: () => Navigator.of(context).pushNamed('/register_user'),
-              onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context){return RegisterUser();})),
-              child: Text('ユーザー登録'),
-            ),
-            RaisedButton(
-              onPressed: () => Navigator.of(context).pushNamed('/tutorial'),
-              child: Text('Tutorialへ'),
-            ),
-          ],
+        child:Container(
+          padding: const EdgeInsets.all(40.0),
+          child:Column(
+            children: <Widget>[
+              Container(
+                height: 500,
+                width: 200,
+                padding: const EdgeInsets.all(10.0),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black),
+                ),
+                child: Text("いうおいうおいうおいうおいうおいうおいう"),
+              ),
+              RaisedButton(
+    //              onPressed: () => Navigator.of(context).pushNamed('/register_user'),
+                onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) {return RegisterUser();}
+                  )
+                ),
+                child: Text('ユーザー登録'),
+              ),
+              RaisedButton(
+                onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context){return TeamsOfService();}
+                  )
+                ),
+                child: Text('Tutorialへ'),
+              ),
+            ],
+          ),
         ),
-      ),
+      )
     );
   }
 

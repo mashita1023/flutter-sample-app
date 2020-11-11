@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:peer_route_app/tutorial.dart';
+import 'package:peer_route_app/teams_of_service.dart';
 import 'package:peer_route_app/homepage.dart';
 import 'package:peer_route_app/register_user.dart';
 
@@ -58,7 +58,7 @@ class _SplashState extends State<Splash> {
           //Navigator.of(context).pushReplacementNamed('/home');
         } else {
           print('navigate tutorial');
-          homeWidget = new Tutorial();
+          homeWidget = new TeamsOfService();
           //Navigator.of(context).pushReplacementNamed('/tutorial');
         }
 
@@ -67,7 +67,7 @@ class _SplashState extends State<Splash> {
           home: homeWidget,
           routes: <String, WidgetBuilder> {
             '/homepage': (_) => new HomePage(),
-            '/tutorial': (_) => new Tutorial(),
+            '/tutorial': (_) => new TeamsOfService(),
             '/register_user': (_) => new RegisterUser(),
             '/home': (_) => new Home(),
           },
