@@ -17,7 +17,6 @@ class _CouponListPageState extends State<CouponListPage> {
   Future<void> getData() async{
     jsonString = await rootBundle.loadString("assets/data.json");
     data = json.decode(jsonString);
-    print(data);
     setState(() {
       userData = data["data"];
     });
