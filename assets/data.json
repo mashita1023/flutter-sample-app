@@ -2,18 +2,53 @@
 "data":[
   {
     "id": 1,
-    "store": "あいうえお",
+    "name": "あいうえお",
     "detail": "500円引き"
   },
   {
     "id": 2,
-    "store": "ままま",
+    "name": "ままま",
     "detail": "ジュース100円引き"
   },
   {
     "id": 3,
-    "store": "ばばばび",
+    "name": "ばばばび",
     "detail": "5%オフ"
+  },
+  {
+    "id": 4,
+    "name": "function",
+    "detail": "ドリンク無料"
+  },
+  {
+    "id": 5,
+    "name": "asdf",
+    "detail": "シールあげます"
+  },
+  {
+    "id": 6,
+    "name": "あいうeo",
+    "detail": "くじ引き引き換え券"
+  },
+  {
+    "id": 7,
+    "name": "go go potato",
+    "detail": "フライドポテトSサイズ無料 or チップス50%OFF"
+  },
+  {
+    "id": 8,
+    "name": "babababi",
+    "detail": "5%オフ"
+  },
+  {
+    "id": 9,
+    "name": "function",
+    "detail": "ドリンク無料"
+  },
+  {
+    "id": 10,
+    "name": "ManJu",
+    "detail": "饅頭プレゼント"
   }
 ]
 }
