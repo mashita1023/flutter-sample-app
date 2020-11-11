@@ -55,7 +55,6 @@ class _ListPageState extends State<ListPage> {
   }
   
   void tapFunc(int index) {
-    print("$index hihi");
     Navigator.of(context).push(MaterialPageRoute(builder: (context){return ListDetail(
       userId: userData[index]["id"],
       userEmail: userData[index]["email"],

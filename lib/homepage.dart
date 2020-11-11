@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:peer_route_app/coupon.dart';
 
 import 'package:peer_route_app/footer.dart';
 import 'package:peer_route_app/notification.dart';
 import 'package:peer_route_app/register_user.dart';
 import 'package:peer_route_app/list.dart';
+import 'package:peer_route_app/coupon.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -29,6 +31,10 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(
               icon: Icon(Icons.list),
               title: Text('LIST')
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.list_alt),
+            title: Text('COUPON'),
           ),
 
         ],
@@ -60,6 +66,15 @@ class _HomePageState extends State<HomePage> {
                   leading: Icon(Icons.list),
                 ),
                 child: ListPage(),
+              );
+            });
+          case 3:
+            return CupertinoTabView(builder: (context){
+              return CupertinoPageScaffold(
+                navigationBar: CupertinoNavigationBar(
+                  leading: Icon(Icons.list),
+                ),
+                child: CouponListPage(),
               );
             });
 

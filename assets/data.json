@@ -1,54 +1,65 @@
 {
-"data":[
-  {
-    "id": 1,
-    "name": "あいうえお",
-    "detail": "500円引き"
-  },
-  {
-    "id": 2,
-    "name": "ままま",
-    "detail": "ジュース100円引き"
-  },
-  {
-    "id": 3,
-    "name": "ばばばび",
-    "detail": "5%オフ"
-  },
-  {
-    "id": 4,
-    "name": "function",
-    "detail": "ドリンク無料"
-  },
-  {
-    "id": 5,
-    "name": "asdf",
-    "detail": "シールあげます"
-  },
-  {
-    "id": 6,
-    "name": "あいうeo",
-    "detail": "くじ引き引き換え券"
-  },
-  {
-    "id": 7,
-    "name": "go go potato",
-    "detail": "フライドポテトSサイズ無料 or チップス50%OFF"
-  },
-  {
-    "id": 8,
-    "name": "babababi",
-    "detail": "5%オフ"
-  },
-  {
-    "id": 9,
-    "name": "function",
-    "detail": "ドリンク無料"
-  },
-  {
-    "id": 10,
-    "name": "ManJu",
-    "detail": "饅頭プレゼント"
-  }
-]
+  "total": 10,
+  "data":[
+    {
+      "id": 1,
+      "name": "あいうえお",
+      "detail": "500円引き",
+      "place": "3F"
+    },
+    {
+      "id": 2,
+      "name": "ままま",
+      "detail": "ジュース100円引き",
+      "place": "10F"
+    },
+    {
+      "id": 3,
+      "name": "ばばばび",
+      "detail": "5%オフ",
+      "place": "4F"
+    },
+    {
+      "id": 4,
+      "name": "function",
+      "detail": "ドリンク無料",
+      "place": "B3F"
+    },
+    {
+      "id": 5,
+      "name": "asdf",
+      "detail": "シールあげます",
+      "place": "1F"
+    },
+    {
+      "id": 6,
+      "name": "あいうeo",
+      "detail": "くじ引き引き換え券",
+      "place": "店外"
+    },
+    {
+      "id": 7,
+      "name": "go go potato",
+      "detail": "フライドポテトSサイズ無料 or チップス50%OFF",
+      "place": "2F"
+    },
+    {
+      "id": 8,
+      "name": "babababi",
+      "detail": "5%オフ",
+      "place": "2F"
+    },
+    {
+      "id": 9,
+      "name": "function",
+      "detail": "ドリンク無料",
+      "place": "B1F"
+    },
+    {
+      "id": 10,
+      "name": "ManJu",
+      "detail": "饅頭プレゼント",
+      "place": "屋上"
+    }
+  ]
 }
