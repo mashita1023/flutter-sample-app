@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/services.dart';
 
 import 'package:peer_route_app/bottom_tab_bar.dart';
 
-class TeamsOfService extends StatefulWidget {
+class ConfirmTeamsOfService extends StatefulWidget {
   @override
-  _TeamsOfServiceState createState() => _TeamsOfServiceState();
+  _ConfirmTeamsOfServiceState createState() => _ConfirmTeamsOfServiceState();
 }
 
-class _TeamsOfServiceState extends State<TeamsOfService> {
+class _ConfirmTeamsOfServiceState extends State<ConfirmTeamsOfService> {
   bool _read = false;
   final String _text =
       "あああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ\nあああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ";
@@ -53,7 +54,7 @@ class _TeamsOfServiceState extends State<TeamsOfService> {
           child: Column(
             children: <Widget>[
               Container(
-                height: size.height - 200,
+                height: size.height - 300,
                 padding: const EdgeInsets.all(10.0),
                 decoration: BoxDecoration(
                     border: Border.all(color: Colors.black, width: 1)),
@@ -64,10 +65,32 @@ class _TeamsOfServiceState extends State<TeamsOfService> {
                   ),
                 ),
               ),
-              RaisedButton(
-                onPressed: switchRead,
-                child: Text('change and confirm read?'),
+              SizedBox(height: 30),
+              /*
+                ボタンを画面サイズからpadding分だけ引いた値: (size.width-80)/2
+                ボタン間の間も欲しいのでおおよそ20のmarginをとるとすると間の線が1なのでSizedBoxの幅は18
+               */
+              Row(
+                children: <Widget>[
+                  SizedBox(
+                    width: (size.width - 100) / 2,
+                    child: RaisedButton(
+                      color: Colors.blue,
+                      onPressed: () => _pushHome(),
+                      child: Text('同意します'),
+                    ),
+                  ),
+                  SizedBox(width: 18),
+                  SizedBox(
+                      width: (size.width - 100) / 2,
+                      child: RaisedButton(
+                        onPressed: () => _pushHome(),
+                        // SystemChannels.platform.invokeMethod('SystemNavigator.pop'),
+                        child: Text("同意しません"),
+                      )),
+                ],
               ),
+              RaisedButton(onPressed: switchRead)
             ],
           ),
         ),

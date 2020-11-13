@@ -2,33 +2,30 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:peer_route_app/teams_of_service.dart';
-import 'package:peer_route_app/homepage.dart';
-import 'package:peer_route_app/register_user.dart';
+import 'package:peer_route_app/confirm_teams_of_service.dart';
+import 'package:peer_route_app/bottom_tab_bar.dart';
 
 void main() {
-  runApp(Splash());
+  runApp(MyApp());
 }
 
-class Splash extends StatefulWidget {
+class MyApp extends StatefulWidget {
   @override
-  _SplashState createState() => new _SplashState();
+  _MyAppState createState() => new _MyAppState();
 }
 
-class _SplashState extends State<Splash> {
+class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    Timer(
-      Duration(seconds: 3),
-        () => print('splashState')
-    );
+    Timer(Duration(seconds: 3), () => print('splashState'));
   }
+
   Future<bool> getPrefRead() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var isRead = prefs.getBool('read');
     print('isRead:$isRead');
-    if(isRead == null){
+    if (isRead == null) {
       print("isRead is null");
       isRead = false;
     }
@@ -38,10 +35,10 @@ class _SplashState extends State<Splash> {
 
   @override
   Widget build(BuildContext context) {
-    return  FutureBuilder(
+    return FutureBuilder(
       future: getPrefRead(),
       builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-        print (snapshot);
+        print(snapshot);
 
         final hasData = snapshot.hasData;
         print('hasData:$hasData');
@@ -52,30 +49,28 @@ class _SplashState extends State<Splash> {
         final isRead = snapshot.data;
         print('isRead:$isRead');
         var homeWidget;
-        if(isRead) {
+        if (isRead) {
           print('navigate home');
-          homeWidget = new HomePage();
-          //Navigator.of(context).pushReplacementNamed('/home');
+          homeWidget = new BottomTabBar();
         } else {
           print('navigate tutorial');
-          homeWidget = new TeamsOfService();
-          //Navigator.of(context).pushReplacementNamed('/tutorial');
+          homeWidget = new ConfirmTeamsOfService();
         }
 
-        var app = new MaterialApp (
+        var app = new MaterialApp(
           title: "Splash",
+          theme: ThemeData(
+            pageTransitionsTheme: const PageTransitionsTheme(
+              builders: <TargetPlatform, PageTransitionsBuilder>{
+                TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+                TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+              },
+            ),
+          ),
           home: homeWidget,
-          routes: <String, WidgetBuilder> {
-            '/homepage': (_) => new HomePage(),
-            '/tutorial': (_) => new TeamsOfService(),
-            '/register_user': (_) => new RegisterUser(),
-            '/home': (_) => new Home(),
-          },
         );
         return app;
       },
     );
   }
-
 }
-

@@ -30,7 +30,6 @@ dependencies:
   cupertino_icons: ^1.0.0
   shared_preferences: ^0.5.12+4
   flutter_native_splash: ^0.1.9
-  fa_stepper: ^0.0.2
   http: ^0.12.2
 
 dev_dependencies:

@@ -6,26 +6,26 @@ class RegisterUser extends StatefulWidget {
 }
 
 class _RegisterUserState extends State<RegisterUser> {
-
-  String _username = '';
+  String _age = '10代';
   String _place = '新潟県 - 上越';
   String _gender = '男';
 
-  List<String> _list = <String>['新潟県 - 上越', '新潟県 - 中越', '新潟県 - 下越'];
+  List<String> _placeList = <String>['新潟県 - 上越', '新潟県 - 中越', '新潟県 - 下越'];
+  List<String> _ageList = <String>['10代', '20代', '30代', '40代', '50代', '60代'];
 
-  void _handleUsername(String e){
+  void _handleage(String e) {
     setState(() {
-      _username = e;
+      _age = e;
     });
   }
 
-  void _handlePlace(String e){
+  void _handlePlace(String e) {
     setState(() {
       _place = e;
     });
   }
 
-  void _handleGender(String e){
+  void _handleGender(String e) {
     setState(() {
       _gender = e;
     });
@@ -33,64 +33,90 @@ class _RegisterUserState extends State<RegisterUser> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text('Register User Page'),
       ),
       body: Container(
-        padding: const EdgeInsets.all(50.0),
-        child: Column(
-          children: <Widget>[
-            Text('ニックネーム'),
-            new TextFormField(
-              enabled: true,
-              decoration: const InputDecoration(
-                hintText: 'ニックネームを入力してください',
+        padding: const EdgeInsets.all(40.0),
+        child: Column(children: <Widget>[
+          Row(
+            children: [
+              SizedBox(
+                height: 100,
+                width: size.width / 2 - 40,
+                child: Text('お住いの地域'),
               ),
-              onChanged: _handleUsername,
+              DropdownButton<String>(
+                items: _placeList.map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                onChanged: _handlePlace,
+                value: _place,
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              SizedBox(
+                height: 100,
+                width: size.width / 2 - 40,
+                child: Text('年齢'),
+              ),
+              DropdownButton<String>(
+                items: _ageList.map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                onChanged: _handleage,
+                value: _age,
+              ),
+            ],
+          ),
+          Center(
+            child: Row(
+              children: [
+                SizedBox(
+                  height: 100,
+                  width: size.width / 2 - 65,
+                  child: Text('性別'),
+                ),
+                Flexible(
+                  child: RadioListTile(
+                    activeColor: Colors.blue,
+                    title: Text('男'),
+                    value: '男',
+                    groupValue: _gender,
+                    onChanged: _handleGender,
+                  ),
+                ),
+                Flexible(
+                  child: RadioListTile(
+                    activeColor: Colors.blue,
+                    title: Text('女'),
+                    value: '女',
+                    groupValue: _gender,
+                    onChanged: _handleGender,
+                  ),
+                ),
+              ],
             ),
-
-            Text('\n性別'),
-            new RadioListTile(
-              activeColor: Colors.blue,
-              title: Text('男'),
-              value: '男',
-              groupValue: _gender,
-              onChanged: _handleGender,
-            ),
-            new RadioListTile(
-              activeColor: Colors.blue,
-              title: Text('女'),
-              value: '女',
-              groupValue: _gender,
-              onChanged: _handleGender,
-            ),
-            new RadioListTile(
-              activeColor: Colors.blue,
-              title: Text('その他'),
-              value: 'その他',
-              groupValue: _gender,
-              onChanged: _handleGender,
-            ),
-
-            Text('\n出身地'),
-            DropdownButton<String>(
-              items: _list.map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-              onChanged: _handlePlace,
-              value: _place,
-              hint: Text('hello'),
-            ),
-            RaisedButton(
-              onPressed: _submission,
-              child: Text('登録'),
-            )
-          ]
-        ),
+          ),
+          RaisedButton(
+            onPressed: () => Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) {
+              return RegisterUser();
+            })),
+            //onPressed: _submission,
+            child: Text('登録'),
+          )
+        ]),
       ),
     );
   }
@@ -100,7 +126,7 @@ class _RegisterUserState extends State<RegisterUser> {
       context: context,
       builder: (BuildContext context) => new AlertDialog(
         title: new Text('確認'),
-        content: new Text('username:$_username\nplace:$_place\ngender:$_gender'),
+        content: new Text('place:$_place\nage:$_age\ngender:$_gender'),
         actions: <Widget>[
           new SimpleDialogOption(
             child: new Text('OK'),
@@ -109,6 +135,7 @@ class _RegisterUserState extends State<RegisterUser> {
         ],
       ),
     );
+    return value;
   }
 /*
   void _submission() {
@@ -121,5 +148,3 @@ class _RegisterUserState extends State<RegisterUser> {
   }
  */
 }
-
-

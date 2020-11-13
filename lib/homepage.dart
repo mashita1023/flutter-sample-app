@@ -1,13 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:peer_route_app/coupon.dart';
-
-import 'package:peer_route_app/footer.dart';
-import 'package:peer_route_app/notification.dart';
-import 'package:peer_route_app/register_user.dart';
-import 'package:peer_route_app/list.dart';
-import 'package:peer_route_app/coupon.dart';
-import 'package:peer_route_app/teams_of_service.dart';
+import 'package:peer_route_app/popup_menu.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -15,142 +7,55 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   @override
   Widget build(BuildContext context) {
-    return CupertinoTabScaffold(
-      tabBar: CupertinoTabBar(
-        items: const <BottomNavigationBarItem> [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              title: Text('HOME')
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.notifications),
-              title: Text('NOTICE')
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.list),
-              title: Text('LIST')
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.list_alt),
-            title: Text('COUPON'),
-          ),
-
-        ],
-      ),
-      tabBuilder: (context, index){
-        switch (index) {
-          case 0:
-            return CupertinoTabView(builder: (context){
-              return CupertinoPageScaffold(
-                  child: Home(),
-              );
-            });
-          case 1:
-            return CupertinoTabView(builder: (context){
-              return CupertinoPageScaffold(
-                child: NotificationPage(),
-              );
-            });
-          case 2:
-            return CupertinoTabView(builder: (context){
-              return CupertinoPageScaffold(
-                child: ListPage(),
-              );
-            });
-          case 3:
-            return CupertinoTabView(builder: (context){
-              return CupertinoPageScaffold(
-                child: CouponListPage(),
-              );
-            });
-
-        }
-      }
-    );
-  }
-/*
-  Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home'),
-      ),
-      bottomNavigationBar: Footer(),
-      body: Center(
+          title: Center(
+            child: Text('ホーム'),
+          ),
+          actions: <Widget>[
+            Popup(),
+          ]),
+      body: Container(
+        padding: const EdgeInsets.all(40.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'Home',
-            ),
-            RaisedButton(
-              onPressed: () => Navigator.of(context).pushNamed('/register_user'),
-              child: Text('ユーザー登録'),
-            ),
-            RaisedButton(
-              onPressed: () => Navigator.of(context).pushNamed('/tutorial'),
-              child: Text('Tutorialへ'),
+            Container(
+              height: size.height - 200,
+              width: size.width - 80,
+              padding: const EdgeInsets.all(10.0),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.black),
+              ),
+              child: Column(children: <Widget>[
+                SizedBox(
+                  width: size.width - 100,
+                  child: Text(
+                    "お知らせ\n",
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+                SizedBox(
+                  width: size.width - 100,
+                  child: Text(
+                    '- 11/12',
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+                SizedBox(
+                  width: size.width - 100,
+                  child: Text(
+                    '- 11/13',
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+              ]),
             ),
           ],
         ),
       ),
     );
   }
-*/
-}
-
-class Home extends StatefulWidget {
-  @override
-  _HomeState createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Center(
-          child: Text('Home'),
-        )
-      ),
-      body: Center(
-        child:Container(
-          padding: const EdgeInsets.all(40.0),
-          child:Column(
-            children: <Widget>[
-              Container(
-                height: 500,
-                width: 200,
-                padding: const EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black),
-                ),
-                child: Text("いうおいうおいうおいうおいうおいうおいう"),
-              ),
-              RaisedButton(
-    //              onPressed: () => Navigator.of(context).pushNamed('/register_user'),
-                onPressed: () => Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) {return RegisterUser();}
-                  )
-                ),
-                child: Text('ユーザー登録'),
-              ),
-              RaisedButton(
-                onPressed: () => Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context){return TeamsOfService();}
-                  )
-                ),
-                child: Text('Tutorialへ'),
-              ),
-            ],
-          ),
-        ),
-      )
-    );
-  }
-
 }
