@@ -4,15 +4,19 @@ import 'package:flutter_blue/flutter_blue.dart';
 import 'package:peer_route_app/register_user.dart';
 import 'package:peer_route_app/teams_of_service.dart';
 import 'package:peer_route_app/bluetooth.dart';
-import 'package:peer_route_app/scan_beacon.dart';
 
 class Popup extends StatefulWidget {
+  //debug
+  List<ScanResult> devicesList = new List();
+  Popup({this.devicesList});
+
   @override
   _PopupState createState() => _PopupState();
 }
 
 class _PopupState extends State<Popup> {
   var _selectedValue = '0';
+  //debug
   final FlutterBlue _flutterBlue = FlutterBlue.instance;
 
   @override
@@ -37,17 +41,11 @@ class _PopupState extends State<Popup> {
             }));
             break;
           case '2':
+// debug
+            print(widget.devicesList);
             Navigator.of(context, rootNavigator: true)
                 .push(MaterialPageRoute(builder: (context) {
-              return ScanBeacon();
-            }));
-
-            break;
-          case '3':
-//            scanDevices();
-            Navigator.of(context, rootNavigator: true)
-                .push(MaterialPageRoute(builder: (context) {
-              return Bluetooth();
+              return Bluetooth(devicesList: widget.devicesList);
             }));
 
             break;
@@ -69,23 +67,7 @@ class _PopupState extends State<Popup> {
           child: Text('Search'),
           value: '2',
         ),
-        PopupMenuItem(
-          child: Text('final'),
-          value: '3',
-        )
       ],
     );
-  }
-
-  void scanDevices() {
-    _flutterBlue
-        .scan(
-      timeout: Duration(seconds: 3),
-    )
-        .listen((scanResult) {
-      if (scanResult.device.name.isNotEmpty) {
-        print("${scanResult.toString()}");
-      }
-    }, onDone: _flutterBlue.stopScan);
   }
 }

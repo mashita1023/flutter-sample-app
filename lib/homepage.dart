@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:peer_route_app/popup_menu.dart';
+import 'package:flutter_blue/flutter_blue.dart';
 
 class HomePage extends StatefulWidget {
+  //debug
+  List<ScanResult> devicesList = new List();
+  HomePage({this.devicesList});
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -15,8 +20,9 @@ class _HomePageState extends State<HomePage> {
           title: Center(
             child: Text('ホーム'),
           ),
+          // debug
           actions: <Widget>[
-            Popup(),
+            Popup(devicesList: widget.devicesList),
           ]),
       body: Container(
         padding: const EdgeInsets.all(40.0),
