@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:peer_route_app/popup_menu.dart';
+import 'package:peer_route_app/widgets/popup_menu.dart';
 
 class NotificationPage extends StatefulWidget {
   @override
@@ -30,19 +30,23 @@ class _NotificationState extends State<NotificationPage> {
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.black),
               ),
-              child: Column(children: <Widget>[
-                SizedBox(
-                  width: size.width - 100,
-                  child: Text(
-                    "お知らせをひょうじ",
-                    textAlign: TextAlign.left,
-                  ),
-                ),
-              ]),
+              child: _contents(size),
             ),
           ],
         ),
       ),
     );
+  }
+
+  Widget _contents(Size size) {
+    return Column(children: <Widget>[
+      SizedBox(
+        width: size.width - 100,
+        child: Text(
+          "お知らせをひょうじ",
+          textAlign: TextAlign.left,
+        ),
+      ),
+    ]);
   }
 }

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 
-import 'package:peer_route_app/register_user.dart';
-import 'package:peer_route_app/teams_of_service.dart';
-import 'package:peer_route_app/bluetooth.dart';
+import 'package:peer_route_app/pages/register_user.dart';
+import 'package:peer_route_app/pages/teams_of_service.dart';
+import 'package:peer_route_app/pages/bluetooth.dart';
 
 class Popup extends StatefulWidget {
-  //debug
+  //BlueTooth画面に渡すためのList (debug)
   List<ScanResult> devicesList = new List();
   Popup({this.devicesList});
 
@@ -16,8 +16,6 @@ class Popup extends StatefulWidget {
 
 class _PopupState extends State<Popup> {
   var _selectedValue = '0';
-  //debug
-  final FlutterBlue _flutterBlue = FlutterBlue.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -28,20 +26,22 @@ class _PopupState extends State<Popup> {
           _selectedValue = s;
         });
         switch (_selectedValue) {
+          // 利用者情報画面へ遷移
           case '0':
             Navigator.of(context, rootNavigator: true)
                 .push(MaterialPageRoute(builder: (context) {
               return RegisterUser();
             }));
             break;
+          // 利用規約画面へ遷移
           case '1':
             Navigator.of(context, rootNavigator: true)
                 .push(MaterialPageRoute(builder: (context) {
               return TeamsOfService();
             }));
             break;
+          // BlueTooth一覧画面へ遷移(debug)
           case '2':
-// debug
             print(widget.devicesList);
             Navigator.of(context, rootNavigator: true)
                 .push(MaterialPageRoute(builder: (context) {

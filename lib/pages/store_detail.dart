@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class StoreDetail extends StatefulWidget {
-//  List userData;
   int userId;
   String userEmail, nameFirst, nameLast, linkAvatar;
   StoreDetail(

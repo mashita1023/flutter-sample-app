@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 
@@ -10,19 +9,11 @@ class Bluetooth extends StatefulWidget {
   _BluetoothState createState() => _BluetoothState();
 }
 
+// デバッグ用のscanしたビーコンの一覧を見るためのページ
 class _BluetoothState extends State<Bluetooth> {
   final FlutterBlue flutterBlue = FlutterBlue.instance;
-  BluetoothDevice _connectedDevice;
-  List<BluetoothService> _services;
 
-  _addDeviceTolist(final ScanResult device) {
-    if (!widget.devicesList.contains(device)) {
-      setState(() {
-        widget.devicesList.add(device);
-      });
-    }
-  }
-
+// scanした情報を表示するための前処理
   Widget _detail(List data) {
     var uuid;
     var major;
@@ -97,15 +88,11 @@ class _BluetoothState extends State<Bluetooth> {
     );
   }
 
-  ListView _buildView() {
-    return _buildListViewOfDevices();
-  }
-
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           title: Text('BLE Demo'),
         ),
-        body: _buildView(),
+        body: _buildListViewOfDevices(),
       );
 }

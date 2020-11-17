@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:peer_route_app/popup_menu.dart';
+import 'package:peer_route_app/widgets/popup_menu.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 
 class HomePage extends StatefulWidget {
@@ -35,33 +35,38 @@ class _HomePageState extends State<HomePage> {
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.black),
               ),
-              child: Column(children: <Widget>[
-                SizedBox(
-                  width: size.width - 100,
-                  child: Text(
-                    "お知らせ\n",
-                    textAlign: TextAlign.left,
-                  ),
-                ),
-                SizedBox(
-                  width: size.width - 100,
-                  child: Text(
-                    '- 11/12',
-                    textAlign: TextAlign.left,
-                  ),
-                ),
-                SizedBox(
-                  width: size.width - 100,
-                  child: Text(
-                    '- 11/13',
-                    textAlign: TextAlign.left,
-                  ),
-                ),
-              ]),
+              child: _contents(size),
             ),
           ],
         ),
       ),
     );
+  }
+
+  // ホームに書かれる情報
+  Widget _contents(Size size) {
+    return Column(children: <Widget>[
+      SizedBox(
+        width: size.width - 100,
+        child: Text(
+          "新着情報",
+          textAlign: TextAlign.left,
+        ),
+      ),
+      SizedBox(
+        width: size.width - 100,
+        child: Text(
+          '- 11/12',
+          textAlign: TextAlign.left,
+        ),
+      ),
+      SizedBox(
+        width: size.width - 100,
+        child: Text(
+          '- 11/13',
+          textAlign: TextAlign.left,
+        ),
+      ),
+    ]);
   }
 }
