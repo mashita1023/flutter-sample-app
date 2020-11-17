@@ -6,15 +6,15 @@ import 'package:peer_route_app/confirm_teams_of_service.dart';
 import 'package:peer_route_app/bottom_tab_bar.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(Splash());
 }
 
-class MyApp extends StatefulWidget {
+class Splash extends StatefulWidget {
   @override
-  _MyAppState createState() => new _MyAppState();
+  _SplashState createState() => new _SplashState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _SplashState extends State<Splash> {
   @override
   void initState() {
     super.initState();

@@ -19,7 +19,8 @@ class _ConfirmTeamsOfServiceState extends State<ConfirmTeamsOfService> {
     _read = true;
     await prefs.setBool('read', _read);
     if (_read) {
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (context) {
         return BottomTabBar();
       }));
     } else
