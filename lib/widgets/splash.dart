@@ -15,7 +15,7 @@ class _SplashState extends State<Splash> {
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 3), () => print('splashState'));
+    Timer(Duration(seconds: 3), () => logger.w('progress duration.'));
   }
 
 // 起動画面のbool値をshaed preferenceからgetする

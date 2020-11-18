@@ -14,14 +14,13 @@ class SimpleLogPrinter extends LogPrinter {
   List<String> log(LogEvent event) {
     output(event.message);
     AnsiColor color = PrettyPrinter.levelColors[event.level];
-    return [color('${event.message}')];
+    return [color('${event.level}: ${event.message}')];
   }
 
 // ファイルに書き込み
   void output(message) async {
-    getFilePath().then((File file) {
-      file.writeAsString(message + '\n', mode: FileMode.append);
-    });
+    File file = await getFilePath();
+    await file.writeAsString(message + '\n', mode: FileMode.append);
   }
 
 // 保存場所のパスを取得する

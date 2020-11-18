@@ -116,6 +116,22 @@ class _BottomTabBarState extends State<BottomTabBar> {
       onWillPop: () async => false,
       child: CupertinoTabScaffold(
         tabBar: CupertinoTabBar(
+          onTap: (value) {
+            switch (value) {
+              case 0:
+                logger.i('navigated HomePage.');
+                break;
+              case 1:
+                logger.i('navigated StoreList.');
+                break;
+              case 2:
+                logger.i('navigated CouponList.');
+                break;
+              case 3:
+                logger.i('navigated Notification.');
+                break;
+            }
+          },
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('ホーム')),
             BottomNavigationBarItem(
@@ -133,32 +149,24 @@ class _BottomTabBarState extends State<BottomTabBar> {
         tabBuilder: (context, index) {
           switch (index) {
             case 0:
-              logger.i('navigated HomePage.');
-
               return CupertinoTabView(builder: (context) {
                 return CupertinoPageScaffold(
                   child: HomePage(devicesList: devicesList),
                 );
               });
             case 1:
-              logger.i('navigated StoreList.');
-
               return CupertinoTabView(builder: (context) {
                 return CupertinoPageScaffold(
                   child: ListPage(),
                 );
               });
             case 2:
-              logger.i('navigated CouponList.');
-
               return CupertinoTabView(builder: (context) {
                 return CupertinoPageScaffold(
                   child: CouponListPage(),
                 );
               });
             case 3:
-              logger.i('navigated Notification.');
-
               return CupertinoTabView(builder: (context) {
                 return CupertinoPageScaffold(
                   child: NotificationPage(),

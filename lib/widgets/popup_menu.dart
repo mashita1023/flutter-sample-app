@@ -17,7 +17,7 @@ class Popup extends StatefulWidget {
 }
 
 class _PopupState extends State<Popup> {
-  var _selectedValue = '0';
+  var _selectedValue = '';
 
   @override
   Widget build(BuildContext context) {
