@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:peer_route_app/widgets/popup_menu.dart';
 import 'package:flutter_blue/flutter_blue.dart';
+import 'package:peer_route_app/widgets/logger.dart';
 
 class HomePage extends StatefulWidget {
   //debug

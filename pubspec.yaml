@@ -32,6 +32,8 @@ dependencies:
   flutter_native_splash: ^0.1.9
   http: ^0.12.2
   flutter_blue: ^0.7.3
+  logger: ^0.9.4
+  path_provider: any
 
 dev_dependencies:
   flutter_test:

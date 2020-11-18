@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:peer_route_app/widgets/popup_menu.dart';
 import 'package:peer_route_app/pages/store_detail.dart';
+import 'package:peer_route_app/widgets/logger.dart';
 
 class ListPage extends StatefulWidget {
   @override
@@ -16,11 +17,15 @@ class _ListPageState extends State<ListPage> {
 
 // APIからGETする処理
   Future getData() async {
-    http.Response res = await http.get("https://reqres.in/api/users?page=2");
-    data = json.decode(res.body);
-    setState(() {
-      userData = data["data"];
-    });
+    try {
+      http.Response res = await http.get("https://reqres.in/api/users?page=2");
+      data = json.decode(res.body);
+      setState(() {
+        userData = data["data"];
+      });
+    } catch (err) {
+      logger.e('don`t response. error message: $err');
+    }
   }
 
   @override
@@ -63,6 +68,7 @@ class _ListPageState extends State<ListPage> {
 
 // CardをタップしたときにStoreDetailに遷移する処理
   void tapFunc(int index) {
+    logger.i('navigated StoreDetail.');
     Navigator.of(context).push(MaterialPageRoute(builder: (context) {
       return StoreDetail(
         userId: userData[index]["id"],

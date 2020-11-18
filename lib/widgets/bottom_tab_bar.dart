@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
-import 'package:peer_route_app/pages/coupon.dart';
+import 'package:peer_route_app/pages/coupon_list.dart';
 import 'package:peer_route_app/pages/notification.dart';
 import 'package:peer_route_app/pages/store_list.dart';
 import 'package:peer_route_app/pages/homepage.dart';
+import 'package:peer_route_app/widgets/logger.dart';
 
 class BottomTabBar extends StatefulWidget {
   @override
@@ -33,34 +34,17 @@ class _BottomTabBarState extends State<BottomTabBar> {
     var major = '65328';
     var minor = '98';
     List data = _detail(device);
-    print(data);
+    logger.i('scan data: $data');
     for (var result in data) {
       if (result[2] == uuid && result[3] == major && result[4] == minor) {
-        print('1: OK');
-      }
-      if (result[2] == uuid && result[3] == major || result[4] == minor) {
-        print('2: OK');
-      }
-      if (result[2] == uuid || result[3] == major && result[4] == minor) {
-        print('3: OK');
-      }
-      if (result[2] == uuid || result[3] == major || result[4] == minor) {
-        print('4: OK');
-      }
-      if (result[2] == uuid) {
-        print('5: OK');
-      }
-      if (result[3] == major) {
-        print('6: OK');
-      }
-      if (result[4] == minor) {
-        print('7: OK');
+        logger.d('uuid && major && minor : ${device.device.name}');
       }
     }
   }
 
 // ビーコンをスキャンする
   void scanDevices() {
+    logger.i('start scan beacon.');
     flutterBlue
         .scan(
       timeout: Duration(seconds: 20),
@@ -149,24 +133,32 @@ class _BottomTabBarState extends State<BottomTabBar> {
         tabBuilder: (context, index) {
           switch (index) {
             case 0:
+              logger.i('navigated HomePage.');
+
               return CupertinoTabView(builder: (context) {
                 return CupertinoPageScaffold(
                   child: HomePage(devicesList: devicesList),
                 );
               });
             case 1:
+              logger.i('navigated StoreList.');
+
               return CupertinoTabView(builder: (context) {
                 return CupertinoPageScaffold(
                   child: ListPage(),
                 );
               });
             case 2:
+              logger.i('navigated CouponList.');
+
               return CupertinoTabView(builder: (context) {
                 return CupertinoPageScaffold(
                   child: CouponListPage(),
                 );
               });
             case 3:
+              logger.i('navigated Notification.');
+
               return CupertinoTabView(builder: (context) {
                 return CupertinoPageScaffold(
                   child: NotificationPage(),

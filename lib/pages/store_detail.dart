@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:peer_route_app/widgets/logger.dart';
 
 class StoreDetail extends StatefulWidget {
   int userId;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:peer_route_app/widgets/logger.dart';
 
 class RegisterUser extends StatefulWidget {
   @override
@@ -136,6 +137,7 @@ class _RegisterUserState extends State<RegisterUser> {
 // 登録ボタンをおしたときの処理
 // ダイアログで入力したデータを確認できる
   Future _submission() async {
+    logger.i('press register button.');
     var value = await showDialog(
       context: context,
       builder: (BuildContext context) => new AlertDialog(

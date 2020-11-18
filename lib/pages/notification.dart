@@ -38,6 +38,7 @@ class _NotificationState extends State<NotificationPage> {
     );
   }
 
+// お知らせの内容
   Widget _contents(Size size) {
     return Column(children: <Widget>[
       SizedBox(
