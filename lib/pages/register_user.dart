@@ -1,20 +1,29 @@
-import 'package:flutter/material.dart';
-import 'package:peer_route_app/widgets/logger.dart';
+import 'package:peer_route_app/configs/importer.dart';
 
 class RegisterUser extends StatefulWidget {
   @override
   _RegisterUserState createState() => _RegisterUserState();
 }
 
+/// 利用者登録のページ
+/// [_placeList]や[_ageList]などはAPIから取ってきたほうがいいかもしれない
 class _RegisterUserState extends State<RegisterUser> {
-  String _age = '10代';
-  String _place = '新潟県 - 上越';
-  String _gender = '男';
+  String _age = '未選択';
+  String _place = '未選択';
+  String _gender = '未選択';
 
-  List<String> _placeList = <String>['新潟県 - 上越', '新潟県 - 中越', '新潟県 - 下越'];
-  List<String> _ageList = <String>['10代', '20代', '30代', '40代', '50代', '60代'];
+  List<String> _placeList = <String>['未選択', '新潟県 - 上越', '新潟県 - 中越', '新潟県 - 下越'];
+  List<String> _ageList = <String>[
+    '未選択',
+    '10代',
+    '20代',
+    '30代',
+    '40代',
+    '50代',
+    '60代'
+  ];
 
-// setter
+  /// setter
   void _handleAge(String e) {
     setState(() {
       _age = e;
@@ -33,6 +42,7 @@ class _RegisterUserState extends State<RegisterUser> {
     });
   }
 
+  /// 画面描写
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -55,7 +65,7 @@ class _RegisterUserState extends State<RegisterUser> {
     );
   }
 
-// 地域選択
+  /// 地域選択
   Widget contentPlace(Size size) {
     return Row(
       children: [
@@ -78,7 +88,7 @@ class _RegisterUserState extends State<RegisterUser> {
     );
   }
 
-// 年齢入力
+  /// 年齢入力
   Widget contentAge(Size size) {
     return Row(
       children: [
@@ -101,7 +111,7 @@ class _RegisterUserState extends State<RegisterUser> {
     );
   }
 
-// 性別選択
+  /// 性別選択
   Widget contentGender(Size size) {
     return Center(
       child: Row(
@@ -134,8 +144,8 @@ class _RegisterUserState extends State<RegisterUser> {
     );
   }
 
-// 登録ボタンをおしたときの処理
-// ダイアログで入力したデータを確認できる
+  /// 登録ボタンをおしたときの処理
+  /// ダイアログで入力したデータを確認できる
   Future _submission() async {
     logger.i('press register button.');
     var value = await showDialog(

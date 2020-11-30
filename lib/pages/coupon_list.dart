@@ -1,10 +1,4 @@
-import 'dart:convert';
-import 'dart:async';
-import 'package:flutter/services.dart';
-import 'package:flutter/material.dart';
-import 'package:peer_route_app/widgets/popup_menu.dart';
-import 'package:peer_route_app/pages/coupon_detail.dart';
-import 'package:peer_route_app/widgets/logger.dart';
+import 'package:peer_route_app/configs/importer.dart';
 
 class CouponListPage extends StatefulWidget {
   @override
@@ -16,7 +10,7 @@ class _CouponListPageState extends State<CouponListPage> {
   Map data;
   List userData = [];
 
-// assets/data.jsonを読み込む処理
+  /// assets/data.jsonを読み込む処理
   Future<void> getData() async {
     try {
       jsonString = await rootBundle.loadString("assets/data.json");
@@ -29,12 +23,14 @@ class _CouponListPageState extends State<CouponListPage> {
     }
   }
 
+  /// クラスが呼び出されたときの処理
   @override
   void initState() {
     super.initState();
     getData();
   }
 
+  /// 画面描写
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -94,7 +90,7 @@ class _CouponListPageState extends State<CouponListPage> {
         ));
   }
 
-// CardをタップしたときにCouponDetailに遷移する処理
+  /// CardをタップしたときにCouponDetailに遷移する処理
   void tapFunc(int index) {
     logger.i('navigated CouponDetail.');
     Navigator.of(context).push(MaterialPageRoute(builder: (context) {

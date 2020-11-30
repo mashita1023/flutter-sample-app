@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:peer_route_app/widgets/logger.dart';
+import 'package:peer_route_app/configs/importer.dart';
 
 class CouponListDetail extends StatefulWidget {
 //  List userData;
@@ -12,6 +12,7 @@ class CouponListDetail extends StatefulWidget {
 }
 
 class _CouponListDetailState extends State<CouponListDetail> {
+  /// 画面描写
   @override
   Widget build(BuildContext context) {
     return Scaffold(

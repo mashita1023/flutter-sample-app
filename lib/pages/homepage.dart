@@ -1,18 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:peer_route_app/widgets/popup_menu.dart';
-import 'package:flutter_blue/flutter_blue.dart';
-import 'package:peer_route_app/widgets/logger.dart';
+import 'package:peer_route_app/configs/importer.dart';
 
 class HomePage extends StatefulWidget {
-  //debug
-  List<ScanResult> devicesList = new List();
-  HomePage({this.devicesList});
-
   @override
   _HomePageState createState() => _HomePageState();
 }
 
+/// ホームのページ
 class _HomePageState extends State<HomePage> {
+  /// 画面描写
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -23,7 +18,7 @@ class _HomePageState extends State<HomePage> {
           ),
           // debug
           actions: <Widget>[
-            Popup(devicesList: widget.devicesList),
+            Popup(),
           ]),
       body: Container(
         padding: const EdgeInsets.all(40.0),
@@ -44,7 +39,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // ホームに書かれる情報
+  /// ホームに書かれる情報
   Widget _contents(Size size) {
     return Column(children: <Widget>[
       SizedBox(
