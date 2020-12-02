@@ -34,6 +34,8 @@ dependencies:
   flutter_blue: ^0.7.3
   logger: ^0.9.4
   path_provider: any
+  flutter_swiper: ^1.1.6
+  flutter_page_indicator: any
 
 dev_dependencies:
   flutter_test:
@@ -56,6 +58,11 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/data.json
+    - assets/help_1.png
+    - assets/help_2.png
+    - assets/help_3.png
+    - assets/help_4.png
+    - assets/background.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

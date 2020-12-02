@@ -22,6 +22,7 @@ export 'package:peer_route_app/pages/register_user.dart';
 export 'package:peer_route_app/pages/store_detail.dart';
 export 'package:peer_route_app/pages/store_list.dart';
 export 'package:peer_route_app/pages/teams_of_service.dart';
+export 'package:peer_route_app/pages/help.dart';
 export 'package:peer_route_app/utils/bluetooth.dart';
 export 'package:peer_route_app/utils/logger.dart';
 export 'package:peer_route_app/utils/permanent_store.dart';

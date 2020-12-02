@@ -7,6 +7,9 @@ class BottomTabBar extends StatefulWidget {
 }
 
 /// footerのタブバーの表示
+// それぞれのタブにスタックされていくため、Popupなどもスタックされてしまう
+// その場合サイズに注意できればTabControllerをBottomTabBarに設定するといいかもしれない
+// またはBottomTabBarをページごとに呼び出す
 class _BottomTabBarState extends State<BottomTabBar> {
   Bluetooth bluetooth;
 

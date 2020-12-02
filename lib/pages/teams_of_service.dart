@@ -36,16 +36,16 @@ class _TeamsOfServiceState extends State<TeamsOfService> {
   }
 
   /// 同意した時の処理
-  /// [store.isAgree]をtrueにして[BottomTabBar]を呼び出す
-  void _pushHome() async {
+  /// [store.isAgree]をtrueにして[HelpPage]を表示
+  void _pushHelp() async {
     PermanentStore store = PermanentStore.getInstance();
     store.isAgree = true;
     await store.save();
     if (store.isAgree) {
-      logger.i('navigated BottomTabBar.');
+      logger.i('navigated HelpPage.');
       Navigator.of(context)
           .pushReplacement(MaterialPageRoute(builder: (context) {
-        return BottomTabBar();
+        return Helppage();
       }));
     } else {
       logger.e('prefs read can`t change true');
@@ -55,8 +55,7 @@ class _TeamsOfServiceState extends State<TeamsOfService> {
   /// 同意しなかったときの処理
   void _refuseConfirm() {
     logger.i('refuse confirm.');
-    _pushHome();
-//    SystemChannels.platform.invokeMethod('SystemNavigator.pop')
+    SystemChannels.platform.invokeMethod('SystemNavigator.pop');
   }
 
   /// [store.isAgree]をスイッチする処理(debug)
@@ -122,7 +121,7 @@ class _TeamsOfServiceState extends State<TeamsOfService> {
               width: (size.width - 100) / 2,
               child: RaisedButton(
                 color: Colors.blue,
-                onPressed: () => _pushHome(),
+                onPressed: () => _pushHelp(),
                 child: Text('同意します'),
               ),
             ),
