@@ -11,7 +11,6 @@ class _RegisterUserState extends State<RegisterUser> {
   String _age = '';
   String _place = '';
   String _gender = '';
-  //bool _flag = false;
   List _selectedStores = [];
 
   List<String> _placeList = <String>[
@@ -67,6 +66,8 @@ class _RegisterUserState extends State<RegisterUser> {
     });
   }
 
+  /// チェックボックスのチェックを可変にも対応できる。
+  /// [selectedStores]に[store_id]があるかどうかで判断するためvalueではcontainsを使う。
   void _onStoreSelected(bool selected, store_id) {
     if (selected) {
       setState(() {
