@@ -26,6 +26,8 @@ export 'package:peer_route_app/pages/help.dart';
 export 'package:peer_route_app/utils/bluetooth.dart';
 export 'package:peer_route_app/utils/logger.dart';
 export 'package:peer_route_app/utils/permanent_store.dart';
+export 'package:peer_route_app/utils/api.dart';
+export 'package:peer_route_app/utils/database_provider.dart';
 export 'package:peer_route_app/widgets/bottom_tab_bar.dart';
 export 'package:peer_route_app/widgets/popup_menu.dart';
 export 'package:peer_route_app/widgets/splash.dart';

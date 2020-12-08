@@ -4,4 +4,5 @@ Constant constant = Constant();
 
 class Constant {
   final String appName = 'app name';
+  final String appUrl = 'https://localhost:30443/r02-020_remoshot_server/api/';
 }
