@@ -1,20 +1,53 @@
-import 'package:flutter/material.dart';
-import 'package:peer_route_app/widgets/logger.dart';
+import 'package:peer_route_app/configs/importer.dart';
 
 class RegisterUser extends StatefulWidget {
   @override
   _RegisterUserState createState() => _RegisterUserState();
 }
 
+/// 利用者登録のページ
+/// [_placeList]や[_ageList]などはAPIから取ってきたほうがいいかもしれない
 class _RegisterUserState extends State<RegisterUser> {
-  String _age = '10代';
-  String _place = '新潟県 - 上越';
-  String _gender = '男';
+  String _age = '';
+  String _place = '';
+  String _gender = '';
+  List _selectedStores = [];
 
-  List<String> _placeList = <String>['新潟県 - 上越', '新潟県 - 中越', '新潟県 - 下越'];
-  List<String> _ageList = <String>['10代', '20代', '30代', '40代', '50代', '60代'];
+  List<String> _placeList = <String>[
+    '',
+    '新潟市北区',
+    '新潟市東区',
+    '新潟市中央区',
+    '新潟市江南区',
+    '新潟市秋葉区',
+    '新潟市南区',
+    '新潟市西区',
+    '新潟市西蒲区',
+    '新潟市外'
+  ];
 
-// setter
+  List<String> _ageList = <String>[
+    '',
+    '～10代',
+    '20代',
+    '30代',
+    '40代',
+    '50代',
+    '60代',
+    '70代～'
+  ];
+
+  List<String> _storeList = [
+    'ゴジバ',
+    'エスメウ',
+    'ああああ',
+    'UNIKLO',
+    'パン屋さん',
+    'STARHACKS',
+    'AGIGAS'
+  ];
+
+  /// setter
   void _handleAge(String e) {
     setState(() {
       _age = e;
@@ -33,37 +66,60 @@ class _RegisterUserState extends State<RegisterUser> {
     });
   }
 
+  /// チェックボックスのチェックを可変にも対応できる。
+  /// [selectedStores]に[store_id]があるかどうかで判断するためvalueではcontainsを使う。
+  void _onStoreSelected(bool selected, store_id) {
+    if (selected) {
+      setState(() {
+        _selectedStores.add(store_id);
+      });
+    } else {
+      setState(() {
+        _selectedStores.remove(store_id);
+      });
+    }
+  }
+
+  /// 画面描写
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Register User Page'),
       ),
       body: Container(
         padding: const EdgeInsets.all(40.0),
-        child: Column(children: <Widget>[
-          contentPlace(size),
-          contentAge(size),
-          contentGender(size),
-          RaisedButton(
-            onPressed: _submission,
-            child: Text('登録'),
-          )
-        ]),
+        child: SingleChildScrollView(
+          child: Column(children: <Widget>[
+            contentPlace(size),
+            contentAge(size),
+            contentGender(size),
+            contentStore(size),
+            RaisedButton(
+              onPressed: _submission,
+              child: Text('登録'),
+            )
+          ]),
+        ),
       ),
     );
   }
 
-// 地域選択
+  /// 地域選択
   Widget contentPlace(Size size) {
     return Row(
       children: [
         SizedBox(
-          height: 100,
-          width: size.width / 2 - 40,
-          child: Text('お住いの地域'),
+          height: 50,
+          width: size.width / 2 - 65,
+          child: Align(
+            alignment: Alignment.center,
+            child: Text('お住いの地域'),
+          ),
         ),
+        SizedBox(width: 25),
         DropdownButton<String>(
           items: _placeList.map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
@@ -78,15 +134,19 @@ class _RegisterUserState extends State<RegisterUser> {
     );
   }
 
-// 年齢入力
+  /// 年齢入力
   Widget contentAge(Size size) {
     return Row(
       children: [
         SizedBox(
-          height: 100,
-          width: size.width / 2 - 40,
-          child: Text('年齢'),
+          height: 50,
+          width: size.width / 2 - 65,
+          child: Align(
+            alignment: Alignment.center,
+            child: Text('年齢'),
+          ),
         ),
+        SizedBox(width: 45),
         DropdownButton<String>(
           items: _ageList.map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
@@ -101,48 +161,99 @@ class _RegisterUserState extends State<RegisterUser> {
     );
   }
 
-// 性別選択
+  /// 性別選択
   Widget contentGender(Size size) {
-    return Center(
-      child: Row(
-        children: [
-          SizedBox(
-            height: 100,
-            width: size.width / 2 - 65,
+    return Row(
+      children: [
+        SizedBox(
+          height: 50,
+          width: size.width / 2 - 65,
+          child: Align(
+            alignment: Alignment.center,
             child: Text('性別'),
           ),
-          Flexible(
-            child: RadioListTile(
-              activeColor: Colors.blue,
-              title: Text('男'),
-              value: '男',
-              groupValue: _gender,
-              onChanged: _handleGender,
-            ),
+        ),
+        Flexible(
+          child: RadioListTile(
+            activeColor: Colors.blue,
+            title: Text('男'),
+            value: '男',
+            groupValue: _gender,
+            onChanged: _handleGender,
           ),
-          Flexible(
-            child: RadioListTile(
-              activeColor: Colors.blue,
-              title: Text('女'),
-              value: '女',
-              groupValue: _gender,
-              onChanged: _handleGender,
+        ),
+        Flexible(
+          child: RadioListTile(
+            activeColor: Colors.blue,
+            title: Text('女'),
+            value: '女',
+            groupValue: _gender,
+            onChanged: _handleGender,
+          ),
+        ),
+      ],
+    );
+  }
+
+  /// 店舗選択
+  Widget contentStore(Size size) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            SizedBox(
+              width: size.width / 2 - 65,
+              height: 50,
+              child: Container(
+                alignment: Alignment.center,
+                child: Text('お気に入りの店舗'),
+              ),
             ),
+          ],
+        ),
+        SizedBox(height: 20),
+        GridView.builder(
+          itemCount: _storeList.length,
+          shrinkWrap: true,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2, childAspectRatio: 3),
+          itemBuilder: (BuildContext context, int index) {
+            return checkBoxItem(index);
+          },
+        ),
+      ],
+    );
+  }
+
+  /// 店舗名を[index]で受けとりチェックボックスを作成する
+  Widget checkBoxItem(int index) {
+    return Container(
+      child: Row(
+        children: <Widget>[
+          Checkbox(
+            value: _selectedStores.contains(_storeList[index]),
+            onChanged: (bool selected) {
+              _onStoreSelected(selected, _storeList[index]);
+            },
+          ),
+          SizedBox(
+            child: Text('${_storeList[index]}'),
           ),
         ],
       ),
     );
   }
 
-// 登録ボタンをおしたときの処理
-// ダイアログで入力したデータを確認できる
+  /// 登録ボタンをおしたときの処理
+  /// ダイアログで入力したデータを確認できる
   Future _submission() async {
     logger.i('press register button.');
     var value = await showDialog(
       context: context,
       builder: (BuildContext context) => new AlertDialog(
         title: new Text('確認'),
-        content: new Text('place:$_place\nage:$_age\ngender:$_gender'),
+        content: new Text(
+            'place:$_place\nage:$_age\ngender:$_gender\nstore:$_selectedStores'),
         actions: <Widget>[
           new SimpleDialogOption(
             child: new Text('OK'),

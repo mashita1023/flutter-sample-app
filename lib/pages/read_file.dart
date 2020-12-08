@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'dart:async';
-import 'dart:io';
+import 'package:peer_route_app/configs/importer.dart';
 import 'package:path_provider/path_provider.dart';
 
 class ReadFile extends StatefulWidget {
@@ -8,10 +6,13 @@ class ReadFile extends StatefulWidget {
   _ReadFileState createState() => _ReadFileState();
 }
 
+/// 書き込んだdebug.logを表示するdebug用ページ
+/// [out]に出力結果を表示する
 class _ReadFileState extends State<ReadFile> {
   String out = '';
   final _fileName = 'debug.log';
 
+  /// 画面描写
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -52,6 +53,7 @@ class _ReadFileState extends State<ReadFile> {
     );
   }
 
+  /// 読み込みをするボタンの処理
   void loadButton() async {
     setState(() {
       load().then((String value) {
@@ -62,17 +64,20 @@ class _ReadFileState extends State<ReadFile> {
     });
   }
 
+  /// debug.logをリセットするボタンの処理
   void resetButton() async {
     getFilePath().then((File file) {
       file.writeAsString('');
     });
   }
 
+  /// ファイルのパスを取得して返す
   Future<File> getFilePath() async {
     final directory = await getTemporaryDirectory();
     return File(directory.path + '/' + _fileName);
   }
 
+  /// ファイルを読み込んで返す
   Future<String> load() async {
     final file = await getFilePath();
     return file.readAsString();

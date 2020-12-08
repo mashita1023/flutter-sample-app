@@ -1,18 +1,84 @@
-import 'package:flutter/material.dart';
-import 'package:peer_route_app/widgets/popup_menu.dart';
-import 'package:flutter_blue/flutter_blue.dart';
-import 'package:peer_route_app/widgets/logger.dart';
+import 'package:peer_route_app/configs/importer.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class HomePage extends StatefulWidget {
-  //debug
-  List<ScanResult> devicesList = new List();
-  HomePage({this.devicesList});
-
   @override
   _HomePageState createState() => _HomePageState();
 }
 
+/// ホームのページ
 class _HomePageState extends State<HomePage> {
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+  NotificationDetails platformChannelSpecifics;
+  Api api = Api();
+  DatabaseProvider db = DatabaseProvider.instance;
+
+  var result;
+
+  @override
+  void initState() {
+    super.initState();
+
+    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    var initializationSettingsAndroid =
+        AndroidInitializationSettings('app_icon');
+    var initializationSettingsIOS = IOSInitializationSettings(
+        onDidReceiveLocalNotification: onDidReceiveLocationLocation);
+    var initializationSettings = InitializationSettings(
+      android: initializationSettingsAndroid,
+      iOS: initializationSettingsIOS,
+    );
+    flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+      onSelectNotification: onSelectNotification,
+    );
+
+    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+      'your channel id',
+      'your channel name',
+      'your channel description',
+      importance: Importance.max,
+      priority: Priority.high,
+    );
+    var iOSPlatformChannelSpecifics = IOSNotificationDetails();
+    platformChannelSpecifics = NotificationDetails(
+      android: androidPlatformChannelSpecifics,
+      iOS: iOSPlatformChannelSpecifics,
+    );
+  }
+
+  /// 通知をタップしたときに行うイベント
+  Future onSelectNotification(String payload) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CouponListDetail(id: payload),
+        maintainState: false,
+      ),
+    );
+  }
+
+  /// iOS用のイベント
+  Future onDidReceiveLocationLocation(
+      int id, String title, String body, String payload) async {
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(body),
+          actions: <Widget>[
+            FlatButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(payload),
+            )
+          ],
+        );
+      },
+    );
+  }
+
+  /// 画面描写
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -23,7 +89,7 @@ class _HomePageState extends State<HomePage> {
           ),
           // debug
           actions: <Widget>[
-            Popup(devicesList: widget.devicesList),
+            Popup(),
           ]),
       body: Container(
         padding: const EdgeInsets.all(40.0),
@@ -44,7 +110,28 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // ホームに書かれる情報
+  Future _onNotification(result) async {
+    List list = await result;
+    list.asMap().forEach((int index, element) async {
+      if (element["COUPON_ID"] != '0') {
+        try {
+          Map<String, dynamic> row = {'coupon': element["COUPON_ID"]};
+          db.insert(row);
+          await flutterLocalNotificationsPlugin.show(
+            index,
+            'STREAM_ID' + element["STREAM_ID"],
+            element["URL"],
+            platformChannelSpecifics,
+            payload: element["COUPON_ID"],
+          );
+        } catch (e) {
+          logger.e(e);
+        }
+      }
+    });
+  }
+
+  /// ホームに書かれる情報
   Widget _contents(Size size) {
     return Column(children: <Widget>[
       SizedBox(
@@ -66,6 +153,15 @@ class _HomePageState extends State<HomePage> {
         child: Text(
           '- 11/13',
           textAlign: TextAlign.left,
+        ),
+      ),
+      SizedBox(
+        child: RaisedButton(
+          onPressed: () {
+            result = api.postBeacon();
+            _onNotification(result);
+          },
+          child: Text('GET'),
         ),
       ),
     ]);

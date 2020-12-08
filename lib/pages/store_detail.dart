@@ -1,6 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:peer_route_app/widgets/logger.dart';
+import 'package:peer_route_app/configs/importer.dart';
 
+/// 店舗の詳細ページ
+/// 呼び出されたときに値を受け取る
+/// 実際のデータはまだなのでまとめない
+/// 表示するだけならStateless Widgetで問題ない
 class StoreDetail extends StatefulWidget {
   int userId;
   String userEmail, nameFirst, nameLast, linkAvatar;
@@ -15,7 +18,9 @@ class StoreDetail extends StatefulWidget {
   _StoreDetailState createState() => _StoreDetailState();
 }
 
+/// 表示する内容
 class _StoreDetailState extends State<StoreDetail> {
+  /// 画面描写
   @override
   Widget build(BuildContext context) {
     return Scaffold(

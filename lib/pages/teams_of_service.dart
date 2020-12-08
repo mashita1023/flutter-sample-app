@@ -1,26 +1,22 @@
-import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import 'package:peer_route_app/widgets/bottom_tab_bar.dart';
-import 'package:peer_route_app/widgets/logger.dart';
+import 'package:peer_route_app/configs/importer.dart';
 
 class TeamsOfService extends StatefulWidget {
-  bool isRead;
-  TeamsOfService({this.isRead});
-
   @override
   _TeamsOfServiceState createState() => _TeamsOfServiceState();
 }
 
+/// 利用規約を表示する
+/// [store.isAgree]の値によって[cardHeight]の値を変更する
+/// 取得した規約を[_text]に代入して表示する
 class _TeamsOfServiceState extends State<TeamsOfService> {
-  bool _read = false;
   double cardHeight;
   final String _text =
       "あああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ\nあああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ";
 
+  /// [store.isAgree]の値によって[cardHeight]を変更する
   void initState() {
     super.initState();
-    if (widget.isRead) {
+    if (_getAgree()) {
       setState(() {
         cardHeight = 200.0;
       });
@@ -32,42 +28,46 @@ class _TeamsOfServiceState extends State<TeamsOfService> {
     }
   }
 
-// 同意した時の処理
-  void _pushHome() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    _read = true;
-    await prefs.setBool('read', _read);
-    if (_read) {
-      logger.i('navigated BottomTabBar.');
+  /// [store.isAgree]を取得する
+  bool _getAgree() {
+    PermanentStore store = PermanentStore.getInstance();
+    store.load();
+    return store.isAgree;
+  }
+
+  /// 同意した時の処理
+  /// [store.isAgree]をtrueにして[HelpPage]を表示
+  void _pushHelp() async {
+    PermanentStore store = PermanentStore.getInstance();
+    store.isAgree = true;
+    await store.save();
+    if (store.isAgree) {
+      logger.i('navigated HelpPage.');
       Navigator.of(context)
           .pushReplacement(MaterialPageRoute(builder: (context) {
-        return BottomTabBar();
+        return Helppage();
       }));
     } else {
       logger.e('prefs read can`t change true');
     }
   }
 
-// 同意しなかったときの処理
+  /// 同意しなかったときの処理
   void _refuseConfirm() {
     logger.i('refuse confirm.');
-    _pushHome();
-//    SystemChannels.platform.invokeMethod('SystemNavigator.pop')
+    SystemChannels.platform.invokeMethod('SystemNavigator.pop');
   }
 
-// shared preferencesのread値のスイッチ(debug)
+  /// [store.isAgree]をスイッチする処理(debug)
   void switchRead() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _read = !prefs.getBool('read');
-      if (_read == null) {
-        _read = false;
-      }
-    });
-    await prefs.setBool('read', _read);
-    logger.d('change prefs read = $_read');
+    PermanentStore store = PermanentStore.getInstance();
+    store.isAgree = !store.isAgree;
+    store.save();
+    logger.d('change prefs read = ${store.isAgree}');
   }
 
+  /// 画面描写
+  /// 画面のサイズを[size]に取得する
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -110,8 +110,9 @@ class _TeamsOfServiceState extends State<TeamsOfService> {
     );
   }
 
+  /// 同意ボタンを[store.isAgree]の値によって表示する
   Widget confirm(Size size) {
-    if (!widget.isRead) {
+    if (!_getAgree()) {
       return Column(children: <Widget>[
         SizedBox(height: 30),
         Row(
@@ -120,7 +121,7 @@ class _TeamsOfServiceState extends State<TeamsOfService> {
               width: (size.width - 100) / 2,
               child: RaisedButton(
                 color: Colors.blue,
-                onPressed: () => _pushHome(),
+                onPressed: () => _pushHelp(),
                 child: Text('同意します'),
               ),
             ),

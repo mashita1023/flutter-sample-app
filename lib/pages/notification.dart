@@ -1,12 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:peer_route_app/widgets/popup_menu.dart';
+import 'package:peer_route_app/configs/importer.dart';
 
 class NotificationPage extends StatefulWidget {
   @override
   _NotificationState createState() => _NotificationState();
 }
 
+/// お知らせページ
 class _NotificationState extends State<NotificationPage> {
+  /// 画面描写
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -38,7 +39,7 @@ class _NotificationState extends State<NotificationPage> {
     );
   }
 
-// お知らせの内容
+  /// お知らせの内容
   Widget _contents(Size size) {
     return Column(children: <Widget>[
       SizedBox(
