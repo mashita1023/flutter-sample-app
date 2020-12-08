@@ -131,6 +131,8 @@ class _CouponListPageState extends State<CouponListPage> {
     );
   }
 
+  /// Cardの右側の日付の表示
+  /// start_dateとfinish_dateによって表示するテキストを変更する
   Widget timeWidget(data) {
     var text;
     if (data["START_DATE"] == null || data["FINISH_DATE"] == null) {

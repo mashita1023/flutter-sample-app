@@ -4,7 +4,9 @@ import 'package:http/http.dart' as http;
 
 Api api = Api();
 
+/// apiを叩くためのクラス
 class Api {
+  /// このメソッドを呼び出してPOSTする
   Future post(url, request) async {
     // debug
     bool trustSelfSigned = true;
@@ -27,6 +29,7 @@ class Api {
     }
   }
 
+  /// このメソッドを呼び出してGETする
   Future get(url) async {
     // debug
     bool trustSelfSigned = true;
@@ -45,14 +48,17 @@ class Api {
     }
   }
 
+  /// COUPON一覧をGETする
   Future getCoupon() async {
     logger.d('get coupon.');
     String url = constant.appUrl + 'coupon';
     return await get(url);
   }
 
+  /// STORE一覧をGETする
   Future getStore() async {}
 
+  /// BEACONにIDをPOSTして詳細情報を取得する
   Future postBeacon() async {
     Map<String, dynamic> request = {'id': 4};
     String url = constant.appUrl + 'beacon';
@@ -60,6 +66,7 @@ class Api {
     return await post(url, request);
   }
 
+  /// COUPONにIDをPOSTして詳細情報を取得する
   Future postCoupon(id) async {
     Map<String, dynamic> request = {'id': id};
     String url = constant.appUrl + 'coupon';

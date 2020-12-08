@@ -6,10 +6,7 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
 class CouponListDetail extends StatefulWidget {
-//  List userData;
   var id;
-//  String place, detail, name;
-//  CouponListDetail({this.id, this.name, this.detail, this.place});
 
   CouponListDetail({this.id});
 

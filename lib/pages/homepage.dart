@@ -15,6 +15,7 @@ class _HomePageState extends State<HomePage> {
 
   var result;
 
+  /// プッシュ通知をするための設定
   @override
   void initState() {
     super.initState();
@@ -49,13 +50,23 @@ class _HomePageState extends State<HomePage> {
 
   /// 通知をタップしたときに行うイベント
   Future onSelectNotification(String payload) async {
-    await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => CouponListDetail(id: payload),
-        maintainState: false,
-      ),
-    );
+    var data = json.decode(payload);
+    if (int.parse(data[0]['coupon']) != 0) {
+      await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => CouponListDetail(id: data[0]['coupon']),
+          maintainState: false,
+        ),
+      );
+    } else if (int.parse(data[0]['store']) != 0) {
+      await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => StoreDetail(id: data[0]['store']),
+            maintainState: false,
+          ));
+    }
   }
 
   /// iOS用のイベント
@@ -110,23 +121,40 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  /// ローカルプッシュ通知をする
+  /// flutterLocalNotificationsPlugin.show()でプッシュ通知を行っている
+  /// クーポンIDを持っている場合は取得したとしてDBに追加する
   Future _onNotification(result) async {
     List list = await result;
     list.asMap().forEach((int index, element) async {
-      if (element["COUPON_ID"] != '0') {
+      if (int.parse(element["COUPON_ID"]) != 0) {
         try {
           Map<String, dynamic> row = {'coupon': element["COUPON_ID"]};
           db.insert(row);
+          String payload = '[{"coupon": "${element["COUPON_ID"]}"}]';
+          var data = json.decode(payload);
+          print(data[0]['coupon']);
           await flutterLocalNotificationsPlugin.show(
             index,
             'STREAM_ID' + element["STREAM_ID"],
             element["URL"],
             platformChannelSpecifics,
-            payload: element["COUPON_ID"],
+            payload: payload,
           );
         } catch (e) {
           logger.e(e);
         }
+      } else if (int.parse(element["STORE_ID"]) != 0) {
+        String payload = '[{"coupon": "0", "store": "${element["STORE_ID"]}"}]';
+        var data = json.decode(payload);
+        print(data[0]['coupon']);
+        await flutterLocalNotificationsPlugin.show(
+          index,
+          'STREAM_ID' + element["STREAM_ID"],
+          element["URL"],
+          platformChannelSpecifics,
+          payload: payload,
+        );
       }
     });
   }
