@@ -7,6 +7,7 @@ import 'package:peer_route_app/utils/logger.dart';
 class PermanentStore {
   static PermanentStore _instance;
   bool isAgree;
+  int myID;
 
   /// クラスのインスタンス[_instance]を定義し返す
   static getInstance() {
@@ -18,13 +19,15 @@ class PermanentStore {
   load() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     isAgree = prefs.getBool('isAgree') ?? false;
-    logger.d('load permanent store : $isAgree');
+    myID = prefs.getInt('myID') ?? 0;
+    logger.d('load permanent store : isAgree($isAgree) and myID($myID)');
   }
 
   /// [_instance]のisAgreeを[isAgree]の値に変更する処理
   save() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('isAgree', isAgree);
-    logger.d('save permanent store : $isAgree');
+    prefs.setInt('myID', myID);
+    logger.d('save permanent store : isAgree($isAgree) and myID($myID)');
   }
 }

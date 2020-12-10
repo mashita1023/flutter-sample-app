@@ -5,14 +5,8 @@ import 'package:peer_route_app/configs/importer.dart';
 /// 実際のデータはまだなのでまとめない
 /// 表示するだけならStateless Widgetで問題ない
 class StoreDetail extends StatefulWidget {
-  int userId;
-  String userEmail, nameFirst, nameLast, linkAvatar;
-  StoreDetail(
-      {this.userId,
-      this.userEmail,
-      this.nameFirst,
-      this.nameLast,
-      this.linkAvatar});
+  int id;
+  StoreDetail({this.id});
 
   @override
   _StoreDetailState createState() => _StoreDetailState();
@@ -25,22 +19,36 @@ class _StoreDetailState extends State<StoreDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('ItemDetail'),
+        title: Text('店舗詳細'),
       ),
-      body: Container(
-        padding: const EdgeInsets.all(20.0),
-        child: Center(
-          child: Column(
-            children: [
-              CircleAvatar(
-                backgroundImage: NetworkImage(widget.linkAvatar),
+      body: FutureBuilder(
+        future: Api.postStore(widget.id),
+        builder: (ctx, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting ||
+              !snapshot.hasData) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
+          return Container(
+            padding: const EdgeInsets.all(20),
+            child: Center(
+              child: Column(
+                children: <Widget>[
+                  Text('ID: ${snapshot.data[0]["STORE_ID"]}'),
+                  Text('NAME: ${snapshot.data[0]["NAME"]}'),
+                  Text('URL: ${snapshot.data[0]["URL"]}'),
+                  Text('TEL: ${snapshot.data[0]["TEL"]}'),
+                  Text('CREATED: ${snapshot.data[0]["CREATED_AT"]}'),
+                  Text('OPEN: ${snapshot.data[0]["OPEN_TIME"]}'),
+                  Text('CLOSE: ${snapshot.data[0]["CLOSE_TIME"]}'),
+                  Text('PRIORITY: ${snapshot.data[0]["PRIORITY"]}'),
+                ],
               ),
-              Text('id:${widget.userId}'),
-              Text('email:${widget.userEmail}'),
-              Text('name:${widget.nameFirst} ${widget.nameLast}'),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }

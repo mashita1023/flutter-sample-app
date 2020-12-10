@@ -1,4 +1,3 @@
-import 'package:http/http.dart' as http;
 import 'package:peer_route_app/configs/importer.dart';
 
 class ListPage extends StatefulWidget {
@@ -11,71 +10,67 @@ class ListPage extends StatefulWidget {
 class _ListPageState extends State<ListPage> {
   List userData;
 
-  /// APIからGETしたJSONをdecodeしたデータを[data]に代入し、
-  /// 必要情報だけを取り出したものを[userData]に代入する
-  Future getData() async {
-    try {
-      http.Response res = await http.get("https://reqres.in/api/users?page=2");
-      Map data = json.decode(res.body);
-      setState(() {
-        userData = data["data"];
-      });
-    } catch (err) {
-      logger.e('don`t response. error message: $err');
-    }
-  }
-
   /// 呼び出されたときにgetData()を実行
   @override
   void initState() {
     super.initState();
-    getData();
   }
 
   /// 画面描写
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Center(
-            child: Text('店舗'),
-          ),
-          actions: <Widget>[
-            Popup(),
-          ],
+      appBar: AppBar(
+        title: Center(
+          child: Text('店舗'),
         ),
-        body: ListView.builder(
-            itemCount: userData == null ? 0 : userData.length,
-            itemBuilder: (context, int index) {
-              return Card(
-                child: InkWell(
-                  onTap: () => tapFunc(index),
-                  child: Row(
-                    children: <Widget>[
-                      CircleAvatar(
-                        backgroundImage:
-                            NetworkImage(userData[index]["avatar"]),
+        actions: <Widget>[
+          Popup(),
+        ],
+      ),
+      body: FutureBuilder(
+        future: Api.getStore(),
+        builder: (ctx, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting ||
+              !snapshot.hasData) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return Container(
+            padding: const EdgeInsets.all(20),
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: snapshot.data.length,
+              itemBuilder: (context, int index) {
+                return SizedBox(
+                  height: 80,
+                  child: Card(
+                    child: InkWell(
+                      onTap: () =>
+                          tapFunc(int.parse(snapshot.data[index]['STORE_ID'])),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(snapshot.data[index]['NAME']),
+                        ],
                       ),
-                      Text(
-                          "${userData[index]["first_name"]} ${userData[index]["last_name"]}")
-                    ],
+                    ),
                   ),
-                ),
-              );
-            }));
+                );
+              },
+            ),
+          );
+        },
+      ),
+    );
   }
 
   /// CardをタップしたときにStoreDetailに遷移する処理
-  void tapFunc(int index) {
-    logger.i('navigated StoreDetail.');
+  void tapFunc(int id) {
+    logger.i('navigated $id StoreDetail.');
     Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-      return StoreDetail(
-        userId: userData[index]["id"],
-        userEmail: userData[index]["email"],
-        nameFirst: userData[index]["first_name"],
-        nameLast: userData[index]["last_name"],
-        linkAvatar: userData[index]["avatar"],
-      );
+      return StoreDetail(id: id);
     }));
   }
 }

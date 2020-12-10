@@ -34,10 +34,10 @@ class _CouponListDetailState extends State<CouponListDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('ItemDetail'),
+        title: Text('クーポン詳細'),
       ),
       body: FutureBuilder(
-        future: api.postCoupon(widget.id),
+        future: Api.postCoupon(widget.id),
         builder: (ctx, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(

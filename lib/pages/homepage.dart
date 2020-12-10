@@ -10,7 +10,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
   NotificationDetails platformChannelSpecifics;
-  Api api = Api();
   DatabaseProvider db = DatabaseProvider.instance;
 
   var result;
@@ -51,19 +50,19 @@ class _HomePageState extends State<HomePage> {
   /// 通知をタップしたときに行うイベント
   Future onSelectNotification(String payload) async {
     var data = json.decode(payload);
-    if (int.parse(data[0]['coupon']) != 0) {
+    if (int.parse(data['coupon']) != 0) {
       await Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => CouponListDetail(id: data[0]['coupon']),
+          builder: (context) => CouponListDetail(id: int.parse(data['coupon'])),
           maintainState: false,
         ),
       );
-    } else if (int.parse(data[0]['store']) != 0) {
+    } else if (int.parse(data['store']) != 0) {
       await Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => StoreDetail(id: data[0]['store']),
+            builder: (context) => StoreDetail(id: int.parse(data['store'])),
             maintainState: false,
           ));
     }
@@ -131,9 +130,9 @@ class _HomePageState extends State<HomePage> {
         try {
           Map<String, dynamic> row = {'coupon': element["COUPON_ID"]};
           db.insert(row);
-          String payload = '[{"coupon": "${element["COUPON_ID"]}"}]';
+          String payload = '{"coupon": "${element["COUPON_ID"]}"}';
           var data = json.decode(payload);
-          print(data[0]['coupon']);
+          print(data['coupon']);
           await flutterLocalNotificationsPlugin.show(
             index,
             'STREAM_ID' + element["STREAM_ID"],
@@ -145,9 +144,9 @@ class _HomePageState extends State<HomePage> {
           logger.e(e);
         }
       } else if (int.parse(element["STORE_ID"]) != 0) {
-        String payload = '[{"coupon": "0", "store": "${element["STORE_ID"]}"}]';
+        String payload = '{"coupon": "0", "store": "${element["STORE_ID"]}"}';
         var data = json.decode(payload);
-        print(data[0]['coupon']);
+        print(data['coupon']);
         await flutterLocalNotificationsPlugin.show(
           index,
           'STREAM_ID' + element["STREAM_ID"],
@@ -186,7 +185,7 @@ class _HomePageState extends State<HomePage> {
       SizedBox(
         child: RaisedButton(
           onPressed: () {
-            result = api.postBeacon();
+            result = Api.postBeacon();
             _onNotification(result);
           },
           child: Text('GET'),

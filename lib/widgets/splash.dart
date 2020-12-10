@@ -52,7 +52,7 @@ class _SplashState extends State<Splash> {
           homeWidget = new TeamsOfService();
         }
         var app = new MaterialApp(
-          title: constant.appName,
+          title: Constant.appName,
 
           /// 遷移した時の画面の表示のアニメーションを変更する
           theme: ThemeData(

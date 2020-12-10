@@ -6,28 +6,10 @@ class CouponListPage extends StatefulWidget {
 }
 
 class _CouponListPageState extends State<CouponListPage> {
-  String jsonString;
-  Map data;
-  List userData = [];
-
-  /// assets/data.jsonを読み込む処理
-  Future<void> getData() async {
-    try {
-      jsonString = await rootBundle.loadString("assets/data.json");
-      data = json.decode(jsonString);
-      setState(() {
-        userData = data["data"];
-      });
-    } catch (err) {
-      logger.e('don`t response. error message: $err');
-    }
-  }
-
   /// クラスが呼び出されたときの処理
   @override
   void initState() {
     super.initState();
-    getData();
   }
 
   /// 表示するクーポンだけを選別する
@@ -37,7 +19,7 @@ class _CouponListPageState extends State<CouponListPage> {
   /// [result]に対象のものだけをいれて返す
   // ignore: non_constant_identifier_names
   Future display_coupon_list() async {
-    List list = await api.getCoupon();
+    List list = await Api.getCoupon();
     List dbList = await db.queryAllRows();
 
     List useData = [];
@@ -103,16 +85,17 @@ class _CouponListPageState extends State<CouponListPage> {
                 shrinkWrap: true,
                 itemCount: snapshot.data.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return Row(
-                    children: [
-                      InkWell(
-                        onTap: () => tapFunc(
-                            int.parse(snapshot.data[index]['COUPON_ID'])),
-                        child: SizedBox(
+                  return InkWell(
+                    onTap: () =>
+                        tapFunc(int.parse(snapshot.data[index]['COUPON_ID'])),
+                    child: Row(
+                      children: [
+                        SizedBox(
                           height: 100,
                           width: (size.width - 20) / 2,
                           child: Card(
                             child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
                                 Text(snapshot.data[index]['COUPON_ID']),
                                 Text(snapshot.data[index]['CONTENT']),
@@ -120,9 +103,9 @@ class _CouponListPageState extends State<CouponListPage> {
                             ),
                           ),
                         ),
-                      ),
-                      timeWidget(snapshot.data[index]),
-                    ],
+                        timeWidget(snapshot.data[index]),
+                      ],
+                    ),
                   );
                 },
               ),
@@ -135,16 +118,18 @@ class _CouponListPageState extends State<CouponListPage> {
   /// start_dateとfinish_dateによって表示するテキストを変更する
   Widget timeWidget(data) {
     var text;
-    if (data["START_DATE"] == null || data["FINISH_DATE"] == null) {
+    if (data["FINISH_DATE"] == '0000-00-00' || data["FINISH_DATE"] == null) {
       text = 'undefined';
     } else {
-      String start = data["START_DATE"].substring(5, 11).replaceAll('-', '/');
-      String finish = data["FINISH_DATE"].substring(5, 11).replaceAll('-', '/');
+      String start = data["START_DATE"].substring(5, 10).replaceAll('-', '/');
+      String finish = data["FINISH_DATE"].substring(5, 10).replaceAll('-', '/');
       text = '$start ~ $finish';
     }
-    return Align(
-      alignment: Alignment.center,
-      child: Text(text),
+    return Container(
+      child: Text(
+        text,
+        textAlign: TextAlign.center,
+      ),
     );
   }
 
