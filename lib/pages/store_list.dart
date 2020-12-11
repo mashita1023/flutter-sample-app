@@ -9,11 +9,13 @@ class ListPage extends StatefulWidget {
 
 class _ListPageState extends State<ListPage> {
   List userData;
+  Future getStore;
 
-  /// 呼び出されたときにgetData()を実行
+  /// 呼び出されたときにgetStore()を実行
   @override
   void initState() {
     super.initState();
+    getStore = Api.getStore();
   }
 
   /// 画面描写
@@ -29,12 +31,24 @@ class _ListPageState extends State<ListPage> {
         ],
       ),
       body: FutureBuilder(
-        future: Api.getStore(),
+        future: getStore,
         builder: (ctx, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting ||
               !snapshot.hasData) {
             return Center(
               child: CircularProgressIndicator(),
+            );
+          }
+          if (snapshot.error != null) {
+            return Center(
+              child: Text('データを取得できませんでした'),
+            );
+          }
+
+          if (snapshot.data.length == 0) {
+            return Align(
+              alignment: Alignment.center,
+              child: Text('現在店舗情報を取得できていません'),
             );
           }
           return Container(

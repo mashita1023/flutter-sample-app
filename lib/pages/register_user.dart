@@ -28,7 +28,7 @@ class _RegisterUserState extends State<RegisterUser> {
   String _gender = '0';
   List _selectedStores = [];
 
-  Map<String, String> _placeList = {
+  final Map<String, String> _placeList = {
     '0': '',
     '1': '新潟市北区',
     '2': '新潟市東区',
@@ -41,7 +41,7 @@ class _RegisterUserState extends State<RegisterUser> {
     '9': '新潟市外'
   };
 
-  Map<String, String> _ageList = {
+  final Map<String, String> _ageList = {
     '0': '',
     '1': '～10代',
     '2': '20代',
@@ -357,12 +357,13 @@ class _RegisterUserState extends State<RegisterUser> {
           request['favorite${i + 1}'] = '0';
         }
       }
-      showLoaderDialog();
+      WidgetHelper.showLoaderDialog(context);
       await Api.postRegisterUser(request).then((response) {
         store.myID = response['id'];
         store.save();
         Navigator.pop(context);
-        showTextDialog('\n$registerButtonText が完了しました。', '');
+        WidgetHelper.showTextDialog(
+            '\n$registerButtonText が完了しました。', '', context);
         logger.i('registeration was successful');
       });
     }
@@ -386,49 +387,7 @@ class _RegisterUserState extends State<RegisterUser> {
     }
     if (validText == '') return true;
     logger.w('Failed to validate check');
-    showTextDialog(validText, 'エラー');
+    WidgetHelper.showTextDialog(validText, 'エラー', context);
     return false;
-  }
-
-  /// テキストとOKのボタンを表示するダイアログ
-  /// バリデーションと登録完了時のときに使用している。
-  // ignore: missing_return
-  Widget showTextDialog(String text, String title) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(title),
-          content: Text(text, textAlign: TextAlign.center),
-          actions: [
-            FlatButton(
-                onPressed: () => Navigator.pop(context), child: Text('OK')),
-          ],
-        );
-      },
-    );
-  }
-
-  /// 登録中に操作できないようにインジケーターを表示するダイアログ
-  // ignore: missing_return
-  Widget showLoaderDialog() {
-    AlertDialog alert = AlertDialog(
-      content: Row(
-        children: [
-          CircularProgressIndicator(),
-          Container(
-            margin: EdgeInsets.only(left: 10),
-            child: Text("Loading..."),
-          ),
-        ],
-      ),
-    );
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
   }
 }

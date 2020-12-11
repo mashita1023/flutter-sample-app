@@ -4,6 +4,7 @@ import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
 
 /// [logger]でログを取るための定数
+/// SimpleLogPrinterを適用させたいためグローバルにしている。
 final logger = Logger(printer: SimpleLogPrinter());
 
 /// ログの出力結果を簡易的にし、ファイルに書き込む

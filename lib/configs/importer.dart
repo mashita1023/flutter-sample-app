@@ -31,3 +31,4 @@ export 'package:peer_route_app/utils/database_provider.dart';
 export 'package:peer_route_app/widgets/bottom_tab_bar.dart';
 export 'package:peer_route_app/widgets/popup_menu.dart';
 export 'package:peer_route_app/widgets/splash.dart';
+export 'package:peer_route_app/widgets/widget_helper.dart';

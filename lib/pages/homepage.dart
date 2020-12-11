@@ -14,7 +14,7 @@ class _HomePageState extends State<HomePage> {
 
   var result;
 
-  /// プッシュ通知をするための設定
+  /// 起動時にプッシュ通知をするための設定とBLEを動かせるようにする。
   @override
   void initState() {
     super.initState();
@@ -45,6 +45,24 @@ class _HomePageState extends State<HomePage> {
       android: androidPlatformChannelSpecifics,
       iOS: iOSPlatformChannelSpecifics,
     );
+
+    serviceEnabled();
+  }
+
+  /// 位置情報とBluetoothがONになっていることを確認する
+  void serviceEnabled() async {
+    logger.d('scanDevices');
+    bool bluetoothIsOn = await Bluetooth.flutterBlue.isOn;
+    bool locationIsOn = await Bluetooth.location.serviceEnabled();
+    if (bluetoothIsOn && locationIsOn) {
+      Bluetooth.scanDevices();
+    } else if (!bluetoothIsOn && !locationIsOn) {
+      WidgetHelper.showTextDialog('bluetoothと位置情報をONにして下さい', '', context);
+    } else if (!bluetoothIsOn) {
+      WidgetHelper.showTextDialog('bluetoohをONにしてください', '', context);
+    } else {
+      WidgetHelper.showTextDialog('位置情報をONにしてください', '', context);
+    }
   }
 
   /// 通知をタップしたときに行うイベント

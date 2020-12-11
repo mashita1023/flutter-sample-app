@@ -9,12 +9,10 @@ class BluetoothList extends StatefulWidget {
 
 /// デバッグ用のscanしたビーコンの一覧を見るためのページ
 class _BluetoothState extends State<BluetoothList> {
-  Bluetooth bluetooth = Bluetooth();
-
   /// ビーコン一覧をリスト表示するための処理
   ListView _buildListViewOfDevices() {
     List<Container> containers = new List<Container>();
-    for (ScanResult device in bluetooth.devicesList) {
+    for (ScanResult device in Bluetooth.devicesList) {
       containers.add(
         Container(
           height: 100,
@@ -27,7 +25,7 @@ class _BluetoothState extends State<BluetoothList> {
                         ? '(unknown device)'
                         : device.device.name),
                     Text(device.device.id.toString()),
-                    Text(bluetooth.detail(device).toString()),
+                    Text(Bluetooth.detail(device).toString()),
                   ],
                 ),
               ),

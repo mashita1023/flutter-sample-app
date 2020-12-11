@@ -60,7 +60,13 @@ class Api {
     return await _get(url);
   }
 
-  /// BEACONにIDをPOSTして詳細情報を取得する
+  static Future getNotification() async {
+    logger.i('get notification recently list');
+    String url = Constant.appUrl + 'notification/recent';
+    return await _get(url);
+  }
+
+  /// BEACONにUUIDとMAJORとMINORをPOSTして対応したDISTRIBUTION一覧を取得する
   static Future postBeacon() async {
     Map<String, dynamic> request = {'id': 4};
     String url = Constant.appUrl + 'beacon';

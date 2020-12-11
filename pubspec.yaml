@@ -38,6 +38,7 @@ dependencies:
   flutter_page_indicator: any
   flutter_local_notifications: ^3.0.1+7
   sqflite: any
+  location: ^3.0.0
 
 dev_dependencies:
   flutter_test:

@@ -11,14 +11,10 @@ class BottomTabBar extends StatefulWidget {
 // その場合サイズに注意できればTabControllerをBottomTabBarに設定するといいかもしれない
 // またはBottomTabBarをページごとに呼び出す
 class _BottomTabBarState extends State<BottomTabBar> {
-  Bluetooth bluetooth;
-
   /// 最初に呼び出されたときにBluetoothのスキャンを行う
   @override
   void initState() {
     super.initState();
-    bluetooth = Bluetooth();
-    bluetooth.scanDevices();
   }
 
   /// 画面への表示

@@ -1,21 +1,27 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
+import 'package:location/location.dart';
 import 'package:peer_route_app/utils/logger.dart';
 
 /// Bluetooth関連の挙動をまとめる
 class Bluetooth {
   static FlutterBlue flutterBlue = FlutterBlue.instance;
-  final List<ScanResult> devicesList = new List<ScanResult>();
+  static Location location = Location();
+  static final List<ScanResult> devicesList = new List<ScanResult>();
   List deviceDetail = new List();
 
   /// scanしたビーコンを[devicesList]へ追加
-  _addDeviceTolist(final ScanResult device) {
+  static _addDeviceTolist(final ScanResult device) {
     if (!devicesList.contains(device)) {
       devicesList.add(device);
     }
   }
 
   /// ビーコンをscanしたときに行いたい処理
-  _sendData(final ScanResult device) {
+  /// uuidはおなじはずなので[Constant.uuid]と一致したものを
+  /// [major]と[minor]を添えてAPIで叩いてStreamを貰って
+  /// 存在するクーポンIDだけをDBに保存とプッシュ通知を出す
+  static _sendData(final ScanResult device) {
     var uuid = '85c0e72c-2bd5-4090-9248-be84d9f0f2a8';
     var major = '65328';
     var minor = '98';
@@ -29,7 +35,7 @@ class Bluetooth {
   }
 
   /// ビーコンをスキャンする
-  void scanDevices() {
+  static scanDevices() async {
     logger.i('start scan beacon.');
     flutterBlue
         .scan(
@@ -45,7 +51,7 @@ class Bluetooth {
 
   /// scanしたビーコン情報を見てわかるようにするための前処理
   /// List[] => 0: name, 1: MACaddres, 2: uuid, 3: major, 4: minor, 5:txpower
-  List detail(final ScanResult device) {
+  static List detail(final ScanResult device) {
     List returnData = new List();
     var data = device.advertisementData.manufacturerData.values.first.toList();
     var uuid = '';
